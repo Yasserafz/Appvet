@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "869539575129",
+    "project_id": "flutter-firebase-9028a",
+    "storage_bucket": "flutter-firebase-9028a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869539575129:android:00956595b7dd928f4e4848",
+        "android_client_info": {
+          "package_name": "com.example.appvet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsIAdeysxjPE9sJpn5f2ny7X8ypW7eXZ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

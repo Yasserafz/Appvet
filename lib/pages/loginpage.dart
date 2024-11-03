@@ -1,7 +1,7 @@
+import 'package:appvet/styles/HomePageStyle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Ensure you import this library
 import 'package:flutter/material.dart';
-import 'package:appvet/global/common/toast.dart';
+import 'package:appvet/widgets/toast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,8 +27,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: appBarColor,
         automaticallyImplyLeading: false,
-        title: Text("Login"),
+        title: Text("VETAPP"),
       ),
       body: Center(
         child: Padding(
@@ -76,25 +77,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Don't have an account?"),
-                  SizedBox(width: 5),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/signUp");
-                    },
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
         ),
@@ -119,37 +101,21 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      // Search for the user in Firestore by username
-      QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .where('username', isEqualTo: username)
-          .get();
+      // Authentification avec Firebase
+      var credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: username, password: password);
 
-      if (snapshot.docs.isEmpty) {
-        showToast(message: "No user found with that username.");
-        setState(() {
-          _isSigning = false;
-        });
-        return;
-      }
-
-      // Retrieve the associated password
-      String storedPassword = snapshot.docs.first['password'];
-
-      // Check the password
-      if (storedPassword != password) {
-        showToast(message: "Wrong password provided.");
-        setState(() {
-          _isSigning = false;
-        });
-        return;
-      }
-
-      // If the password is correct, you can proceed with authentication
       showToast(message: "User is successfully signed in");
-      Navigator.pushNamed(context, "/home");
-    } catch (e) {
-      showToast(message: "An error occurred: ${e.toString()}");
+      Navigator.pushReplacementNamed(
+          context, "/home"); // Utilisation de pushReplacementNamed
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        showToast(message: "No user found for that email.");
+      } else if (e.code == "wrong-password") {
+        showToast(message: "Wrong password provided.");
+      } else {
+        showToast(message: "${e.code}.");
+      }
     } finally {
       setState(() {
         _isSigning = false;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:appvet/styles/HomePageStyle.dart';
 import 'package:appvet/components/ClothingList.dart';
 import 'package:appvet/components/BottomNavBar.dart';
 import 'package:appvet/pages/CartPage.dart';

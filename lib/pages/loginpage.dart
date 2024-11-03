@@ -102,12 +102,19 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       // Authentification avec Firebase
-      var credential = await FirebaseAuth.instance
+      UserCredential credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: username, password: password);
 
-      showToast(message: "User is successfully signed in");
-      Navigator.pushReplacementNamed(
-          context, "/home"); // Utilisation de pushReplacementNamed
+      // Access user information
+      User? user = credential.user; // Get the user from UserCredential
+
+      // You can use user.uid or user.email as needed
+      if (user != null) {
+        showToast(message: "User ${user.email} is successfully signed in");
+        // Optionally, navigate to home page with user details
+        Navigator.pushReplacementNamed(
+            context, "/home"); // Utilisation de pushReplacementNamed
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         showToast(message: "No user found for that email.");

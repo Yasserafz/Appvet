@@ -1,4 +1,5 @@
 import 'package:appvet/styles/HomePageStyle.dart';
+import 'package:appvet/styles/ProfilePageStyle.dart'; // Utiliser votre fichier de style
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -91,8 +92,9 @@ class _ProfilePageState extends State<ProfilePage> {
             },
             child: const Text(
               "Valider",
-              style:
-                  TextStyle(color: Colors.green), // Couleur verte pour le texte
+              style: TextStyle(
+                  color:
+                      validateTextColor), // Couleur pour le texte de validation
             ),
           ),
         ],
@@ -143,12 +145,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               ),
               SizedBox(height: 20),
-              // Bouton de déconnexion en bas
               ElevatedButton(
                 onPressed: _signOut,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Colors.red, // Couleur rouge pour le bouton de déconnexion
+                  backgroundColor: buttonColor, // Utiliser la couleur définie
                 ),
                 child: const Text("Déconnexion"),
               ),
